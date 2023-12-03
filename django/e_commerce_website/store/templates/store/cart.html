@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+<!-- prettier-ignore -->
+{% block content %}
+{% for order in orders %}
+<h2>x{{ order.qty }} {{ order.product.name }}</h2>
+<img
+	src="{{ order.product.thumbnail.url }}"
+	alt="{{ order.product.name }}"
+	style="max-width: 250px"
+/>
+{% endfor %}
+
+<p><a href="{% url 'delete-cart' %}">Supprimer mon panier</a></p>
+
+{% endblock %}

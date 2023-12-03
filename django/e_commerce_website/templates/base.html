@@ -12,7 +12,7 @@
 
 		{% if user.is_authenticated %}
 		<!-- prettier-ignore-->
-		Bonjour {{ user.username }}
+		<p>Bonjour {{ user.username }}</p>
 		<a href="{% url 'logout' %}">Déconnexion</a>
 		{% else %}
 		<a href="{% url 'login' %}" style="text-decoration: none; color: black"
@@ -21,6 +21,12 @@
 		<a href="{% url 'signup' %}" style="text-decoration: none; color: black"
 			>S'inscrire</a
 		>
+		{% endif %} {% if user.cart %}
+		<p>
+			<a href="{% url 'cart' %}"
+				>Voir mon panier ({{ user.cart.orders.count }})
+			</a>
+		</p>
 		{% endif %}
 		<!-- prettier-ignore-->
 		{% block content %} {% endblock %}
