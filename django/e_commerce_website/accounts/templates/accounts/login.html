@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+<!-- prettier-ignore -->
+{% block content %}
+
+<h2>Connexion</h2>
+
+<form method="Post">
+	{% csrf_token %}
+	<p>
+		<label for="username">Nom d'utilisateur</label>
+		<input type="text" id="username" name="username" />
+	</p>
+
+	<p>
+		<label for="password">Mot de passe</label>
+		<input type="password" id="password" name="password" />
+	</p>
+
+	<button type="submit">Se connecter</button>
+</form>
+
+{% endblock %}

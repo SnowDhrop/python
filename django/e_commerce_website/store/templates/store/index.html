@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+<!-- prettier-ignore -->
+{% block content %}
+
+{% for product in products %}
+
+<a
+	href="{{ product.get_absolute_url }}"
+	style="text-decoration: none; color: black"
+>
+	<h2>{{ product.name }}</h2>
+	<img
+		src="{{ product.thumbnail.url }}"
+		alt="{{ product.name }}"
+		style="max-width: 250px"
+	/>
+</a>
+
+{% endfor %} {% endblock %}
