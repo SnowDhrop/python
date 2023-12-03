@@ -21,6 +21,6 @@ from tasks import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name="home")
-    path('', views.add_collection, name="add-collection")
+    path('', views.index, name="home"),
+    path('add-collection', views.add_collection, name="add-collection")
 ]

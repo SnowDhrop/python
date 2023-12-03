@@ -7,5 +7,17 @@
 	</head>
 	<body>
 		<h1>ToDo List</h1>
+
+		{% for collection in collections %}
+		<h2>{{ collection.name|safe }}</h2>
+		{% endfor %}
+
+		<form method="POST" action="{% url 'add-collection' %}">
+			{% csrf_token %}
+
+			<label for="collection-name">Nom de la collection</label>
+			<input type="text" name="collection-name" />
+			<button type="submit">Ajouter</button>
+		</form>
 	</body>
 </html>
