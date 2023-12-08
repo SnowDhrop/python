@@ -24,5 +24,6 @@ urlpatterns = [
     path('', views.index, name="home"),
     path('add-collection/', views.add_collection, name="add-collection"),
     path('add-task/', views.add_task, name="add-task"),
-    path('get-tasks/<int:collection_pk>/', views.get_tasks, name="get-tasks")
+    path('get-tasks/<int:collection_pk>/', views.get_tasks, name="get-tasks"),
+    path('jeux/<int:i>/<int:randInt>', views.jeux, name="jeux")
 ]

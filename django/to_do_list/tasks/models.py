@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 class Collection(models.Model):
     name = models.CharField(max_length=60)

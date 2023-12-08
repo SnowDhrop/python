@@ -4,15 +4,24 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script src="https://unpkg.com/htmx.org@1.9.9"></script>
-		<title>ToDo List</title>
+		<title>To Do List</title>
 	</head>
 	<body>
-		<h1>ToDo List</h1>
+		<h1>To Do List</h1>
 
 		<div id="collections">
 			{% for collection in collections %}
-			<h2>{{ collection.name }}</h2>
+			<button hx-get="{% url 'get-tasks' collection.pk %}" hx-target="#tasks">
+				{{ collection.name }}
+			</button>
 			{% endfor %}
+			<!-- prettier-ignore -->
+
+			<div>
+				{% for i in range %}
+				<button hx-get="{% url 'jeux' i randInt %}">🐱‍👤</button>
+				{% endfor %}
+			</div>
 		</div>
 
 		<form method="POST">
@@ -43,11 +52,7 @@
 			</button>
 		</form>
 
-		<div id="tasks">
-			{% for task in tasks %}
-			<p>{{task.description}}</p>
-			{% endfor %}
-		</div>
+		<div id="tasks"></div>
 
 		<script>
 			document.body.addEventListener("htmx:responseError", function (e) {

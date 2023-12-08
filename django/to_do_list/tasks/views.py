@@ -1,21 +1,31 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.html import escape
+from django.utils.text import slugify
+import random
+
 
 from tasks.models import Collection, Task
 
 def index(request):
     context = {}
+
+    collection_slug = request.GET.get("collection")
     collection = Collection.get_default_collection()
+
+    if collection_slug:
+        collection = get_object_or_404(Collection, slug=collection_slug)
     
-    context["collections"] = Collection.objects.order_by("-slug")
+    context["collections"] = Collection.objects.order_by("slug")
     context["tasks"] = collection.task_set.order_by("description")
+    context["range"] = range(20)
+    context["randInt"] = random.randint(0, 19)
 
     return render(request, 'tasks/index.html', context=context)
 
 def add_collection(request):
     collection_name = escape(request.POST.get("collection-name"))
-    collection, created = Collection.objects.get_or_create(name=collection_name)
+    collection, created = Collection.objects.get_or_create(name=collection_name, slug=slugify(collection_name))
 
     if not created:
         return HttpResponse("La collection existe déjà", status=409)
@@ -32,5 +42,16 @@ def add_task(request):
 
 def get_tasks(request, collection_pk):
     collection = get_object_or_404(Collection, pk=collection_pk)
+    tasks = collection.task_set.order_by("description")
 
-    return collection.task_set.order_by("description")
+    return render(request, "tasks/tasks.html", context={"tasks": tasks})
+
+def jeux(request, i, randInt):
+    if (i == randInt):
+        return HttpResponse("Trouvé ! 😊")
+    else:
+        return HttpResponse("☠")
+
+
+
+
