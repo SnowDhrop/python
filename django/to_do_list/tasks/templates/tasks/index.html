@@ -9,19 +9,23 @@
 	<body>
 		<h1>To Do List</h1>
 
+		<div id="game">
+			{% for i in range %}
+			<button hx-get="{% url 'jeux' i randInt %}">🐱‍👤</button>
+			{% endfor %}
+		</div>
+
 		<div id="collections">
 			{% for collection in collections %}
-			<button hx-get="{% url 'get-tasks' collection.pk %}" hx-target="#tasks">
+			<button
+				hx-get="{% url 'get-tasks' collection.pk %}"
+				hx-push-url="?collection={{ collection.slug }}"
+				hx-target="#tasks"
+			>
 				{{ collection.name }}
 			</button>
 			{% endfor %}
 			<!-- prettier-ignore -->
-
-			<div>
-				{% for i in range %}
-				<button hx-get="{% url 'jeux' i randInt %}">🐱‍👤</button>
-				{% endfor %}
-			</div>
 		</div>
 
 		<form method="POST">
@@ -46,18 +50,25 @@
 				hx-post="{% url 'add-task' %}"
 				hx-target="#tasks"
 				hx-swap="beforeend"
+				hx-vals="js:{collection: getCollectionFromURL()}"
 				type="submit"
 			>
 				Ajouter
 			</button>
 		</form>
 
-		<div id="tasks"></div>
+		<div id="tasks">{% include 'tasks/tasks.html' with tasks=tasks %}</div>
 
 		<script>
 			document.body.addEventListener("htmx:responseError", function (e) {
 				alert(e.detail.xhr.responseText);
 			});
+
+			function getCollectionFromURL() {
+				let url = new URL(window.location.href);
+				let searchParams = url.searchParams;
+				return searchParams.get("collection");
+			}
 		</script>
 	</body>
 </html>
