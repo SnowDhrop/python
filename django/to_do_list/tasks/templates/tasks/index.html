@@ -3,56 +3,91 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+			crossorigin="anonymous"
+		/>
 		<script src="https://unpkg.com/htmx.org@1.9.9"></script>
+
 		<title>To Do List</title>
 	</head>
 	<body>
-		<h1>To Do List</h1>
+		<div class="container mt-5">
+			<header class="mb-5 d-flex flex-column">
+				<img
+					src="https://cdn-icons-png.flaticon.com/512/2387/2387635.png"
+					width="100"
+					alt="To Do List Icon"
+					class="m-auto"
+				/>
+				<h1 class="text-center">To Do List</h1>
+			</header>
 
-		<div id="game">
-			{% for i in range %}
-			<button hx-get="{% url 'jeux' i randInt %}">🐱‍👤</button>
-			{% endfor %}
-		</div>
+			<!-- <div id="game">
+				{% for i in range %}
+				<button hx-get="{% url 'jeux' i randInt %}">🐱‍👤</button>
+				{% endfor %}
+			</div> -->
 
-		<div id="collections">
-			<!-- prettier-ignore -->
-			{% for collection in collections %} 
-				{% include 'tasks/collection.html' with collection=collection %} 
-			{% endfor %}
-		</div>
+			<div class="row">
+				<div class="col-12 col-md-4">
+					<form class="d-flex gap-2" method="POST">
+						{% csrf_token %}
 
-		<form method="POST">
-			{% csrf_token %}
+						<input
+							type="text"
+							name="collection-name"
+							placeholder="Collection.."
+							class="form-control"
+						/>
+						<button
+							class="btn btn-success"
+							hx-post="{% url 'add-collection' %}"
+							hx-target="#collections"
+							hx-swap="beforeend"
+							type="submit"
+						>
+							Ajouter
+						</button>
+					</form>
 
-			<label for="collection-name">Nom de la collection</label>
-			<input type="text" name="collection-name" />
-			<button
-				hx-post="{% url 'add-collection' %}"
-				hx-target="#collections"
-				hx-swap="beforeend"
-				type="submit"
-			>
-				Ajouter
-			</button>
-		</form>
+					<nav id="collections" class="list-group mt-2 mb-5">
+						<!-- prettier-ignore -->
+						{% for collection in collections %} 
+							{% include 'tasks/collection.html' with collection=collection %} 
+						{% endfor %}
+					</nav>
+				</div>
 
-		<form method="POST" type="text" name="task-name">
-			{% csrf_token %}
-			<input type="text" name="task-description" />
-			<button
-				hx-post="{% url 'add-task' %}"
-				hx-target="#tasks"
-				hx-swap="beforeend"
-				hx-vals="js:{collection: getCollectionFromURL()}"
-				type="submit"
-			>
-				Ajouter
-			</button>
-		</form>
+				<section class="col-12 col-md-8">
+					<form class="d-flex gap-2" method="POST" type="text" name="task-name">
+						{% csrf_token %}
+						<input
+							class="form-control"
+							type="text"
+							name="task-description"
+							placeholder="Tâche.."
+						/>
+						<button
+							class="btn btn-success"
+							hx-post="{% url 'add-task' %}"
+							hx-target="#tasks"
+							hx-swap="beforeend"
+							hx-vals="js:{collection: getCollectionFromURL()}"
+							type="submit"
+						>
+							Ajouter
+						</button>
+					</form>
 
-		<div id="tasks">
-			{% include 'tasks/tasks.html' with tasks=tasks collection=collection %}
+					<div id="tasks">
+						<!-- prettier-ignore -->
+						{% include 'tasks/tasks.html' with tasks=tasks collection=collection %}
+					</div>
+				</section>
+			</div>
 		</div>
 
 		<script>
@@ -66,5 +101,10 @@
 				return searchParams.get("collection");
 			}
 		</script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+			crossorigin="anonymous"
+		></script>
 	</body>
 </html>

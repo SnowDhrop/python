@@ -1,10 +1,12 @@
-<!-- prettier-ignore -->
-{% for task in tasks %} 
-    {% include 'tasks/task.html' with task=task %} 
-{% endfor%}
+<div class="f-flex flex-column gap-2 mt-2">
+	<!-- prettier-ignore -->
+	{% for task in tasks %} 
+        {% include 'tasks/task.html' with task=task %} 
+    {%endfor%}
+</div>
 
 {% if collection.slug != "_defaut" %}
-<a href="{% url 'delete-collection' collection.pk %}">
+<a href="{% url 'delete-collection' collection.pk %}" class="btn btn-secondary">
 	Supprimer la collection
 </a>
 {% endif %}
