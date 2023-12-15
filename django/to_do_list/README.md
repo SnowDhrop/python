@@ -1,3 +1,3 @@
 # DocList
 
-Application To Do List qui crée, modifie ou supprime des évènements.
+Application To Do List qui crée, modifie ou supprime des collections ainsi que ses tâches associées.
